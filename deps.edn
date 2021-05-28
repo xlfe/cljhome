@@ -1,0 +1,61 @@
+{:paths ["src"]
+ :deps {
+        org.clojure/clojure               {:mvn/version "1.10.3"}
+        org.clojure/tools.cli             {:mvn/version "1.0.206"}
+
+        org.martinklepsch/clj-http-lite   {:mvn/version "0.4.3"}
+        cheshire/cheshire                 {:mvn/version "5.10.0"}
+        stylefruits/gniazdo               {:mvn/version "1.2.0"}
+        org.jmdns/jmdns                   {:mvn/version "3.5.6"}}
+
+
+
+
+ :aliases {
+           ;; build an uberjar (application) with AOT compilation by default:
+           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+                     :exec-fn hf.depstar/uberjar
+                     :exec-args {:aot true}}
+           ;; build a jar (library):
+           :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+                 :exec-fn hf.depstar/jar
+                 :main-class core
+                 :exec-args {}}
+           ;; generic depstar alias, use with jar or uberjar function name:
+           :depstar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+                     :ns-default hf.depstar
+                     :exec-args {}} 
+           
+           
+           :native-image
+           {:main-opts ["-m" "clj.native-image" "core"
+                        "--initialize-at-build-time"
+                        "--no-fallback"
+                        "--enable-https"
+                        "--enable-url-protocols=http,https"
+                        "--enable-all-security-services"
+                        "--report-unsupported-elements-at-runtime"
+                        "--allow-incomplete-classpath"
+
+
+                        ; needed for jffi  com.kenai.jffi.Foreign.lookupBuiltinType(I)J
+                        ; https://github.com/absurdfarce/graal-cassandra-driver/blob/master/build.gradle
+
+                        ; // JNI should be enabled; jffi (via jnr-ffi) will execute native ops via
+                        ; // JNI on our behalf
+                        ; "-H:+JNI"
+                        ; "-H:IncludeResources=jni/.*"
+                        ; "--initialize-at-run-time=com.kenai.jffi.Foreign,org.freedesktop.dbus.connections.FreeBSDHelper"
+                        ; "--trace-class-initialization=com.kenai.jffi.Foreign"
+                        ; "-H:+TraceClassInitialization"
+
+                        "-H:ConfigurationFileDirectories=./config"
+                        ; "--trace-object-instantiation=java.util.Random"
+                        "--initialize-at-run-time=javax.jmdns.impl.JmDNSImpl"
+                        ;; optional native image name override
+                        "-H:Name=core"]
+            :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
+            :extra-deps
+            {clj.native-image/clj.native-image
+             {:git/url "https://github.com/taylorwood/clj.native-image.git"
+              :sha "4604ae76855e09cdabc0a2ecc5a7de2cc5b775d6"}}}}}

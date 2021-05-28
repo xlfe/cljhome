@@ -1,0 +1,21 @@
+[
+ {
+  "name": "jmdns.proxy$java.lang.Object$ServiceListener$53dfe922",
+  "allPublicConstructors": true
+ },
+ {
+  "name": "javax.jmdns.JmDNS",
+  "allPublicMethods": true
+ },
+ {
+  "name": "javax.jmdns.ServiceEvent"
+ },
+ {
+  "name": "javax.jmdns.ServiceListener",
+  "allPublicMethods": true
+ },
+ {
+  "name": "javax.jmdns.impl.ServiceEventImpl",
+  "allPublicMethods": true
+ }
+]
