@@ -37,22 +37,8 @@
                         "--report-unsupported-elements-at-runtime"
                         "--allow-incomplete-classpath"
 
-
-                        ; needed for jffi  com.kenai.jffi.Foreign.lookupBuiltinType(I)J
-                        ; https://github.com/absurdfarce/graal-cassandra-driver/blob/master/build.gradle
-
-                        ; // JNI should be enabled; jffi (via jnr-ffi) will execute native ops via
-                        ; // JNI on our behalf
-                        ; "-H:+JNI"
-                        ; "-H:IncludeResources=jni/.*"
-                        ; "--initialize-at-run-time=com.kenai.jffi.Foreign,org.freedesktop.dbus.connections.FreeBSDHelper"
-                        ; "--trace-class-initialization=com.kenai.jffi.Foreign"
-                        ; "-H:+TraceClassInitialization"
-
                         "-H:ConfigurationFileDirectories=./config"
-                        ; "--trace-object-instantiation=java.util.Random"
                         "--initialize-at-run-time=javax.jmdns.impl.JmDNSImpl"
-                        ;; optional native image name override
                         "-H:Name=core"]
             :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
             :extra-deps
