@@ -4,4 +4,4 @@
 clojure -X:uberjar -m core/-main :jar MyProject.jar
 
 # Then run native-image-agent
-java -agentlib:native-image-agent=config-output-dir=config -jar MyProject.jar -m core
+/graalvm-ce-java11-21.1.0/bin/java -agentlib:native-image-agent=config-output-dir=config -jar MyProject.jar -m core

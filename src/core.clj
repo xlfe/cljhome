@@ -2,34 +2,25 @@
   (:require
     [clojure.tools.cli :refer [parse-opts]]
     [deconz]
+    [clojure.string]
     [jmdns])
 
   (:gen-class))
 
-
 (def cli-options
-  ;; An option with a required argument
-  [["-j" "--jmdns DOMAIN" "Domain to discover"
-    :default "_googlecast._tcp.local."] 
-
-   ["-d" "--deconz DECONZ_HOST:PASS" "Host and pass for Deconz server"]
-    
-   ["-h" "--help"]])
-
-
-
+  [["-j" "--jmdns DOMAIN" "Domain to discover"]
+   ["-d" "--deconz DECONZ_HOST:PASS" "Host and pass for Deconz server"]])
 
 (defn -main [& args]
   (let [opts (parse-opts args cli-options)
         jmdns-domain (get-in opts [:options :jmdns])
         dc (get-in opts [:options :deconz])]
-    (println opts)
     (println "Running...")
     (when jmdns-domain
-      (println "jmdns")
+      (println "== Starting jmdns: " jmdns-domain)
       (prn (jmdns/discover jmdns-domain)))
     (when dc
-      (println "deconz")
       (let [[d-host d-pass] (clojure.string/split dc #":")]
-        (prn (deconz/get-config d-host d-pass))))))
+        (println "== Starting deconz: " d-host)
+        (deconz/get-config d-host d-pass)))))
   

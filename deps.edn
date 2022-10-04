@@ -6,7 +6,9 @@
         org.martinklepsch/clj-http-lite   {:mvn/version "0.4.3"}
         cheshire/cheshire                 {:mvn/version "5.10.0"}
         stylefruits/gniazdo               {:mvn/version "1.2.0"}
-        org.jmdns/jmdns                   {:mvn/version "3.5.6"}}
+        org.jmdns/jmdns                   {:mvn/version "3.5.6"}
+        org.slf4j/slf4j-api               {:mvn/version "1.7.30"}
+        org.slf4j/slf4j-simple            {:mvn/version "1.7.30"}}
 
 
 

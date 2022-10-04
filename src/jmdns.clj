@@ -1,6 +1,4 @@
 (ns jmdns
-
-
   (:import
     [java.io IOException];
     [java.net InetAddress UnknownHostException];
@@ -38,12 +36,10 @@
           (serviceRemoved [event])
             ; (prn "service removed" (.getInfo event)))
           (serviceResolved [event]
-            (prn "service resolved" (to-map (.getInfo event))))))
+            (println "service resolved" (to-map (.getInfo event))))))
 
 (defn discover
   [domain]
-  (let [
-        jmdns (JmDNS/create (InetAddress/getLocalHost))]
-
-    (.addServiceListener jmdns domain p);
-    jmdns))
+  (->
+    (JmDNS/create (InetAddress/getLocalHost))
+    (.addServiceListener domain p)));
